@@ -14,7 +14,7 @@ python = "^3.6"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-diff-calc = "diff_calc.gendiff:main"
+gendiff = "diff_calc.gendiff:main"
 
 [build-system]
 requires = ["poetry>=0.12"]
