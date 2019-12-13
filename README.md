@@ -1,4 +1,5 @@
 # Difference calculator
+[![Build Status](https://travis-ci.org/GeVhoo/python-project-lvl2.svg?branch=master)](https://travis-ci.org/GeVhoo/python-project-lvl2)
 
 Hello World!
 
