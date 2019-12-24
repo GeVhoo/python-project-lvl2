@@ -14,7 +14,7 @@ def main():
     first_path = args.first_file
     second_path = args.second_file
 
-    output.generate_diff(open_json.get_set(first_path), open_json.get_set(second_path))  # noqa: 501
+    print(output.generate_diff(open_json.get_set(first_path), open_json.get_set(second_path)))  # noqa: 501
 
 
 if __name__ == '__main__':

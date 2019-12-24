@@ -25,4 +25,4 @@ def generate_diff(first_file, second_file):
         if i:
             result += '\n'
         result += formating.format(i[0], i[1], i[2])
-    print('{' + result + '\n}')
+    return ('{' + result + '\n}')
