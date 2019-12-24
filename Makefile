@@ -4,7 +4,7 @@ install:
 lint:
 	@poetry run flake8 gendiff
 
-test:
+run_test:
 	@poetry run pytest -vv
 	@poetry run coverage run ./tests/test_gendiff.py
 
