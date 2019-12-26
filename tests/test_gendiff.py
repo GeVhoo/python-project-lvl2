@@ -1,7 +1,5 @@
-import pytest
-import json
 from gendiff import output
-from gendiff.open_file import open_json
+from gendiff import parsers
 
 RESULT = '''{
     host: hexlet.io
@@ -14,6 +12,10 @@ RESULT = '''{
 
 def test():
     assert output.generate_diff(
-        open_json.get_set('./tests/fixtures/before.json'),
-        open_json.get_set('./tests/fixtures/after.json'),
+        parsers.get_set('./tests/fixtures/before.json'),
+        parsers.get_set('./tests/fixtures/after.json'),
+        ) == RESULT
+    assert output.generate_diff(
+        parsers.get_set('./tests/fixtures/before.yml'),
+        parsers.get_set('./tests/fixtures/after.yml'),
         ) == RESULT

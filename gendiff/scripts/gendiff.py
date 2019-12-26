@@ -2,7 +2,7 @@
 
 import argparse
 from gendiff import output
-from gendiff.open_file import open_json
+from gendiff import parsers
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     first_path = args.first_file
     second_path = args.second_file
 
-    print(output.generate_diff(open_json.get_set(first_path), open_json.get_set(second_path)))  # noqa: 501
+    print(output.generate_diff(parsers.get_set(first_path), parsers.get_set(second_path)))  # noqa: 501
 
 
 if __name__ == '__main__':
