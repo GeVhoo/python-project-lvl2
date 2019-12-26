@@ -5,7 +5,6 @@ lint:
 	@poetry run flake8 gendiff
 
 run_test:
-	@poetry run pytest -vv
-	@poetry run coverage run ./tests/test_gendiff.py
+	@poetry run pytest -vv --cov=gendiff tests/ --cov-report xml
 
 .PHONY: install lint test
