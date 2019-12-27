@@ -3,7 +3,7 @@ python: 3.6
 
 env:
   global:
-    - CC_TEST_REPORTER_ID=77da5660a79d2a377d6af0d5de4e0fb7d36a47a9b9806ddc2d5f1cbfcb641acc
+    - CC_TEST_REPORTER_ID=a134f806d32a77b336871562af7a73a0e5078b88d64a110b190e6c86a0fc41e6
  
 install: make
 
