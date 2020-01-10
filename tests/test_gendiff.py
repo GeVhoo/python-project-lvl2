@@ -1,7 +1,6 @@
 from gendiff import render
-from gendiff import parser
+from gendiff import parsers
 from gendiff import generate_diff
-from tests.fixtures import expected_result
 
 RESULT = '''{
     host: hexlet.io
@@ -40,14 +39,14 @@ RESULT_COMPLEX = '''{
 
 def test():
     assert render.string_diff(generate_diff.get_diff(
-        parser.get_set('./tests/fixtures/before.json'),
-        parser.get_set('./tests/fixtures/after.json'),
+        parsers.get_set('./tests/fixtures/before.json'),
+        parsers.get_set('./tests/fixtures/after.json'),
         )) == RESULT
     assert render.string_diff(generate_diff.get_diff(
-        parser.get_set('./tests/fixtures/before.yml'),
-        parser.get_set('./tests/fixtures/after.yml'),
+        parsers.get_set('./tests/fixtures/before.yml'),
+        parsers.get_set('./tests/fixtures/after.yml'),
         )) == RESULT
     assert render.string_diff(generate_diff.get_diff(
-        parser.get_set('./tests/fixtures/before_complex.json'),
-        parser.get_set('./tests/fixtures/after_complex.json'),
+        parsers.get_set('./tests/fixtures/before_complex.json'),
+        parsers.get_set('./tests/fixtures/after_complex.json'),
         )) == RESULT_COMPLEX
