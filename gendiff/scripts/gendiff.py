@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-from gendiff import output
-from gendiff import parsers
+from gendiff import render
+from gendiff import parser
+from gendiff import generate_diff
 
 
 def main():
@@ -14,7 +15,7 @@ def main():
     first_path = args.first_file
     second_path = args.second_file
 
-    print(output.generate_diff(parsers.get_set(first_path), parsers.get_set(second_path)))  # noqa: 501
+    print(render.string_diff(generate_diff.get_diff(parser.get_set(first_path), parser.get_set(second_path))))  # noqa: 501
 
 
 if __name__ == '__main__':
