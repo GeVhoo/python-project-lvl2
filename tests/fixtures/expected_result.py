@@ -1,4 +1,12 @@
 RESULT = '''{
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}'''
+
+RESULT_COMPLEX = '''{
     common: {
         setting1: Value 1
       - setting2: 200
