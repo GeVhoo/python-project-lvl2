@@ -1,11 +1,15 @@
-from gendiff.constants import IN_BEFORE, IN_AFTER, SAME
+from gendiff.constants import IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN
 
 
+# The function accepts a dictionary
+# in which the collected data compares two files
+# and returns a string looks like JSON
 def string_diff(dictionary, level=0):
     result = ''
     for key in sorted(dictionary):
         indent = '    ' * level
 
+        # Get string format of values
         def get_format(data):
             if type(data) is dict:
                 for k, v in data.items():
@@ -19,22 +23,22 @@ def string_diff(dictionary, level=0):
         if key:
             result += '\n'
         if dictionary[key]['condition'] == IN_BEFORE:
-            result += '{}{}{}: {}'.format(
-                indent, IN_BEFORE, key, get_format(dictionary[key]['value']))
+            result += '{}  - {}: {}'.format(
+                indent, key, get_format(dictionary[key]['value']))
         if dictionary[key]['condition'] == IN_AFTER:
-            result += '{}{}{}: {}'.format(
-                indent, IN_AFTER, key, get_format(dictionary[key]['value']))
+            result += '{}  + {}: {}'.format(
+                indent, key, get_format(dictionary[key]['value']))
         if dictionary[key]['condition'] == SAME:
-            result += '{}{}{}: {}'.format(
-                indent, SAME, key, get_format(dictionary[key]['value']))
-        if dictionary[key]['condition'] == 'changed':
-            result += '{}{}{}: {}\n'.format(
-                indent, IN_BEFORE, key,
+            result += '{}    {}: {}'.format(
+                indent, key, get_format(dictionary[key]['value']))
+        if dictionary[key]['condition'] == CHANGED:
+            result += '{}  - {}: {}\n'.format(
+                indent, key,
                 get_format(dictionary[key]['before_value']))
-            result += '{}{}{}: {}'.format(
-                indent, IN_AFTER, key,
+            result += '{}  + {}: {}'.format(
+                indent, key,
                 get_format(dictionary[key]['after_value']))
-        if dictionary[key]['condition'] == 'children':
+        if dictionary[key]['condition'] == CHILDREN:
             result += '    {}{}: {{'.format(indent, key)
             result += string_diff(dictionary[key]['value'], level + 1)
             result += '\n{}    }}'.format(indent)

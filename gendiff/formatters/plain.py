@@ -1,4 +1,4 @@
-from gendiff.constants import IN_BEFORE, IN_AFTER
+from gendiff.constants import IN_BEFORE, IN_AFTER, CHANGED, CHILDREN
 
 
 def plain_diff(dictionary, path=[]):
@@ -6,7 +6,7 @@ def plain_diff(dictionary, path=[]):
     for key in sorted(dictionary):
         path.append(key)
         format_path = '.'.join(path)
-        if dictionary[key]['condition'] == 'children':
+        if dictionary[key]['condition'] == CHILDREN:
             result.append(plain_diff(dictionary[key]['value'], path))
         if dictionary[key]['condition'] == IN_BEFORE:
             result.append("Property '{}' was removed".format(format_path))
@@ -15,7 +15,7 @@ def plain_diff(dictionary, path=[]):
             result.append(description.format(
                 format_path,
                 format_value(dictionary[key]['value'])))
-        if dictionary[key]['condition'] == 'changed':
+        if dictionary[key]['condition'] == CHANGED:
             description = "Property '{}' was changed. From '{}' to '{}'"
             result.append(description.format(
                 format_path,

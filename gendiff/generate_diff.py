@@ -1,4 +1,4 @@
-from gendiff.constants import IN_BEFORE, IN_AFTER, SAME
+from gendiff.constants import IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN
 
 
 def get_diff(before, after):
@@ -29,12 +29,12 @@ def get_diff(before, after):
                 }
         elif type(before[key]) is dict and type(after[key]) is dict:
             result[key] = {
-                'condition': 'children',
+                'condition': CHILDREN,
                 'value': get_diff(before[key], after[key]),
                 }
         else:
             result[key] = {
-                'condition': 'changed',
+                'condition': CHANGED,
                 'before_value': before[key],
                 'after_value': after[key],
                 }
