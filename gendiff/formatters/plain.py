@@ -1,6 +1,7 @@
 from gendiff.constants import IN_BEFORE, IN_AFTER, CHANGED, CHILDREN
 
 
+# A simple format that shows what values ​​have been changed
 def plain_diff(dictionary, path=[]):
     result = []
     for key in sorted(dictionary):
@@ -28,7 +29,4 @@ def plain_diff(dictionary, path=[]):
 def format_value(data):
     if type(data) is dict:
         return 'complex value'
-    if type(data) is bool:
-        return str(data).lower()
-    else:
-        return str(data)
+    return data

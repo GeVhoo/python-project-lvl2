@@ -54,7 +54,7 @@ JSON_RESULT = '''{
             },
             "setting3": {
                 "condition": "same",
-                "value": true
+                "value": "true"
             },
             "setting4": {
                 "condition": "add",

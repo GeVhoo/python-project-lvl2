@@ -15,10 +15,7 @@ def string_diff(dictionary, level=0):
                 for k, v in data.items():
                     return '{{\n        {}{}: {}\n{}    }}'.format(
                         indent, k, v, indent)
-            if type(data) is bool:
-                return str(data).lower()
-            else:
-                return str(data)
+            return data
 
         if key:
             result += '\n'

@@ -14,18 +14,18 @@ def get_diff(before, after):
     for key in keys_in_before:
         result[key] = {
             'condition': IN_BEFORE,
-            'value': before[key],
+            'value': get_value(before[key]),
             }
     for key in keys_in_after:
         result[key] = {
             'condition': IN_AFTER,
-            'value': after[key],
+            'value': get_value(after[key]),
             }
     for key in keys_in_both:
         if before[key] == after[key]:
             result[key] = {
                 'condition': SAME,
-                'value': before[key],
+                'value': get_value(before[key]),
                 }
         elif type(before[key]) is dict and type(after[key]) is dict:
             result[key] = {
@@ -35,7 +35,23 @@ def get_diff(before, after):
         else:
             result[key] = {
                 'condition': CHANGED,
-                'before_value': before[key],
-                'after_value': after[key],
+                'before_value': get_value(before[key]),
+                'after_value': get_value(after[key]),
                 }
     return result
+
+
+def get_value(data):
+    if type(data) is dict:
+        for k, v in data.items():
+            data[k] = get_str_value(v)
+            return data
+    else:
+        return get_str_value(data)
+
+
+def get_str_value(item):
+    if type(item) is bool:
+        return str(item).lower()
+    else:
+        return str(item)
