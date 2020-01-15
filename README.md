@@ -6,7 +6,21 @@
 Hello World!
 
 This is my second project that i do in Hexlet course.
-In this project I made a utility to find differences in configuration files.
+In this project I made a utility to find differences in two configuration files.
+
+This utility works with JSON and YAML files and can provide output in three ways: string (look like JSON), plain and JSON.
+Default output in 'string' format. Command for example:
+```bash
+gendiff before.json after.json
+```
+To select the output format, you must specify the key. For example:
+```bash
+gendiff -f plain before.json after.json
+```
+or
+```bash
+gendiff -f json before.json after.json
+```
 
 Hope you enjoy it!
 ##
