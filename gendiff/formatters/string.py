@@ -4,7 +4,7 @@ from gendiff.constants import IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN
 # The function accepts a dictionary
 # in which the collected data compares two files
 # and returns a string looks like JSON
-def string_diff(dictionary, level=0):
+def output(dictionary, level=0):
     result = ''
     for key in sorted(dictionary):
         indent = '    ' * level
@@ -37,7 +37,7 @@ def string_diff(dictionary, level=0):
                 get_format(dictionary[key]['after_value']))
         if dictionary[key]['condition'] == CHILDREN:
             result += '    {}{}: {{'.format(indent, key)
-            result += string_diff(dictionary[key]['value'], level + 1)
+            result += output(dictionary[key]['value'], level + 1)
             result += '\n{}    }}'.format(indent)
 
     if level == 0:

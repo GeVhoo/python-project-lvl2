@@ -1,15 +1,10 @@
-import os
-import json
-import yaml
+from gendiff.formatters import json, plain, string
+from gendiff import parsers
+from gendiff import generate_diff
 
 
-def get_extension(file_path):
-    return os.path.splitext(file_path)[-1]
-
-
-# Open file and return set
-def get_set(file_path):
-    if get_extension(file_path) == 'yaml' or 'yml':
-        return yaml.load(open(file_path), Loader=yaml.Loader)
-    elif get_extension(file_path) == 'json':
-        return json.load(open(file_path))
+def run(first_file, second_file, formatter):
+    FORMATTERS = {'json': json, 'plain': plain, 'string': string}
+    print(FORMATTERS[formatter].output(generate_diff.get_diff(
+        parsers.get_set(first_file),
+        parsers.get_set(second_file))))

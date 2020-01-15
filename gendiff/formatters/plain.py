@@ -2,13 +2,13 @@ from gendiff.constants import IN_BEFORE, IN_AFTER, CHANGED, CHILDREN
 
 
 # A simple format that shows what values ​​have been changed
-def plain_diff(dictionary, path=[]):
+def output(dictionary, path=[]):
     result = []
     for key in sorted(dictionary):
         path.append(key)
         format_path = '.'.join(path)
         if dictionary[key]['condition'] == CHILDREN:
-            result.append(plain_diff(dictionary[key]['value'], path))
+            result.append(output(dictionary[key]['value'], path))
         if dictionary[key]['condition'] == IN_BEFORE:
             result.append("Property '{}' was removed".format(format_path))
         if dictionary[key]['condition'] == IN_AFTER:
