@@ -1,33 +1,48 @@
 from gendiff.formatters import string, plain, json
 from gendiff import parsers
 from gendiff import generate_diff
-from tests.fixtures import expected_result
+
+EXPECTED_SIMPLE = './tests/fixtures/expected_result/expected_simple.txt'
+EXPECTED_COMPLEX = './tests/fixtures/expected_result/expected_complex.txt'
+EXPECTED_PLAIN = './tests/fixtures/expected_result/expected_plain.txt'
+EXPECTED_JSON = './tests/fixtures/expected_result/expected_json.json'
 
 
-def test_string():
+def get_expected_result(path):
+    with open(path) as file:
+        return file.read().rstrip()
+
+
+def test_string_simple():
     assert string.output(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before.json'),
         parsers.get_set('./tests/fixtures/after.json'),
-        )) == expected_result.RESULT
+        )) == get_expected_result(EXPECTED_SIMPLE)
+
+
+def test_string_yaml():
     assert string.output(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before.yml'),
         parsers.get_set('./tests/fixtures/after.yml'),
-        )) == expected_result.RESULT
+        )) == get_expected_result(EXPECTED_SIMPLE)
+
+
+def test_string_complex():
     assert string.output(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
-        )) == expected_result.RESULT_COMPLEX
+        )) == get_expected_result(EXPECTED_COMPLEX)
 
 
 def test_plain():
     assert plain.output(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
-        )) == expected_result.PLAIN_RESULT
+        )) == get_expected_result(EXPECTED_PLAIN)
 
 
 def test_json():
     assert json.output(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
-        )) == expected_result.JSON_RESULT
+        )) == get_expected_result(EXPECTED_JSON)
