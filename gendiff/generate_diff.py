@@ -1,10 +1,11 @@
-from gendiff.constants import IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN
+from gendiff.constants import (IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN,
+                               CONDITION, VALUE, BEFORE_VALUE, AFTER_VALUE)
 
 
 def get_diff(before, after):
     # Get keys for both files
-    before_keys_set = set(before.keys())
-    after_keys_set = set(after.keys())
+    before_keys_set = before.keys()
+    after_keys_set = after.keys()
     # Get the keys difference in files
     keys_in_both = (before_keys_set & after_keys_set)
     keys_in_before = (before_keys_set - after_keys_set)
@@ -13,30 +14,32 @@ def get_diff(before, after):
     result = {}
     for key in keys_in_before:
         result[key] = {
-            'condition': IN_BEFORE,
-            'value': get_value(before[key]),
+            CONDITION: IN_BEFORE,
+            VALUE: get_value(before[key]),
             }
     for key in keys_in_after:
         result[key] = {
-            'condition': IN_AFTER,
-            'value': get_value(after[key]),
+            CONDITION: IN_AFTER,
+            VALUE: get_value(after[key]),
             }
     for key in keys_in_both:
-        if before[key] == after[key]:
+        before_value = before[key]
+        after_value = after[key]
+        if before_value == after_value:
             result[key] = {
-                'condition': SAME,
-                'value': get_value(before[key]),
+                CONDITION: SAME,
+                VALUE: get_value(before_value),
                 }
-        elif type(before[key]) is dict and type(after[key]) is dict:
+        elif isinstance(before_value, dict) and isinstance(after_value, dict):
             result[key] = {
-                'condition': CHILDREN,
-                'value': get_diff(before[key], after[key]),
+                CONDITION: CHILDREN,
+                VALUE: get_diff(before_value, after_value),
                 }
         else:
             result[key] = {
-                'condition': CHANGED,
-                'before_value': get_value(before[key]),
-                'after_value': get_value(after[key]),
+                CONDITION: CHANGED,
+                BEFORE_VALUE: get_value(before_value),
+                AFTER_VALUE: get_value(after_value),
                 }
     return result
 
