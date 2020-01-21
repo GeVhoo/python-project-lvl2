@@ -1,32 +1,43 @@
-from gendiff.constants import IN_BEFORE, IN_AFTER, CHANGED, CHILDREN
+from gendiff.constants import (IN_BEFORE, IN_AFTER, CHANGED, CHILDREN,
+                               CONDITION, VALUE, BEFORE_VALUE, AFTER_VALUE)
 
 
 # A simple format that shows what values ​​have been changed
-def output(dictionary, path=[]):
+def output(dictionary, path=None):
     result = []
     for key in sorted(dictionary):
-        path.append(key)
-        format_path = '.'.join(path)
-        if dictionary[key]['condition'] == CHILDREN:
-            result.append(output(dictionary[key]['value'], path))
-        if dictionary[key]['condition'] == IN_BEFORE:
-            result.append("Property '{}' was removed".format(format_path))
-        if dictionary[key]['condition'] == IN_AFTER:
-            description = "Property '{}' was added with value: '{}'"
-            result.append(description.format(
-                format_path,
-                format_value(dictionary[key]['value'])))
-        if dictionary[key]['condition'] == CHANGED:
-            description = "Property '{}' was changed. From '{}' to '{}'"
-            result.append(description.format(
-                format_path,
-                format_value(dictionary[key]['before_value']),
-                format_value(dictionary[key]['after_value'])))
-        path.pop()
+        condition = dictionary[key][CONDITION]
+        format_path = get_path(key, path)
+        if condition == CHILDREN:
+            result.append(output(dictionary[key][VALUE], key))
+        elif condition == IN_BEFORE:
+            result.append(f"Property '{format_path}' was removed")
+        elif condition == IN_AFTER:
+            value = get_str_value(dictionary[key][VALUE])
+            result.append(
+                f"Property '{format_path}' was added with value: '{value}'"
+            )
+        elif condition == CHANGED:
+            before_value = get_str_value(dictionary[key][BEFORE_VALUE])
+            after_value = get_str_value(dictionary[key][AFTER_VALUE])
+            result.append(
+                f"Property '{format_path}' was changed. "
+                f"From '{before_value}' to '{after_value}'"
+            )
     return '\n'.join(result)
 
 
-def format_value(data):
-    if type(data) is dict:
+def get_str_value(data):
+    if isinstance(data, dict):
         return 'complex value'
-    return data
+    elif type(data) is bool:
+        return str(data).lower()
+    else:
+        return str(data)
+
+
+def get_path(key_name, path):
+    if path is None:
+        return key_name
+    else:
+        return f'{path}.{key_name}'
