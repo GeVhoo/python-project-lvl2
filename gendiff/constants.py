@@ -7,5 +7,3 @@ CHILDREN = 'children'
 # Data keys for conditions
 CONDITION = 'condition'
 VALUE = 'value'
-BEFORE_VALUE = 'before_value'
-AFTER_VALUE = 'after_value'

@@ -1,25 +1,27 @@
 from gendiff.constants import (IN_BEFORE, IN_AFTER, CHANGED, CHILDREN,
-                               CONDITION, VALUE, BEFORE_VALUE, AFTER_VALUE)
+                               CONDITION, VALUE)
 
 
 # A simple format that shows what values ​​have been changed
-def output(dictionary, path=None):
+def format(dictionary, path=None):
     result = []
-    for key in sorted(dictionary):
-        condition = dictionary[key][CONDITION]
+    for key, node in sorted(dictionary.items()):
+        condition = node[CONDITION]
         format_path = get_path(key, path)
+        value = node[VALUE]
         if condition == CHILDREN:
-            result.append(output(dictionary[key][VALUE], key))
+            result.append(format(value, key))
         elif condition == IN_BEFORE:
             result.append(f"Property '{format_path}' was removed")
         elif condition == IN_AFTER:
-            value = get_str_value(dictionary[key][VALUE])
+            value = get_str_value(value)
             result.append(
                 f"Property '{format_path}' was added with value: '{value}'"
             )
         elif condition == CHANGED:
-            before_value = get_str_value(dictionary[key][BEFORE_VALUE])
-            after_value = get_str_value(dictionary[key][AFTER_VALUE])
+            old, new = value
+            before_value = get_str_value(old)
+            after_value = get_str_value(new)
             result.append(
                 f"Property '{format_path}' was changed. "
                 f"From '{before_value}' to '{after_value}'"
@@ -30,7 +32,7 @@ def output(dictionary, path=None):
 def get_str_value(data):
     if isinstance(data, dict):
         return 'complex value'
-    elif type(data) is bool:
+    elif isinstance(data, bool):
         return str(data).lower()
     else:
         return str(data)

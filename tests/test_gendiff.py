@@ -1,4 +1,4 @@
-from gendiff.formatters import string, plain, json
+from gendiff import format
 from gendiff import parsers
 from gendiff import generate_diff
 
@@ -14,35 +14,35 @@ def get_expected_result(path):
 
 
 def test_string_simple():
-    assert string.output(generate_diff.get_diff(
+    assert format.default(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before.json'),
         parsers.get_set('./tests/fixtures/after.json'),
         )) == get_expected_result(EXPECTED_SIMPLE)
 
 
 def test_string_yaml():
-    assert string.output(generate_diff.get_diff(
+    assert format.default(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before.yml'),
         parsers.get_set('./tests/fixtures/after.yml'),
         )) == get_expected_result(EXPECTED_SIMPLE)
 
 
 def test_string_complex():
-    assert string.output(generate_diff.get_diff(
+    assert format.default(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_COMPLEX)
 
 
 def test_plain():
-    assert plain.output(generate_diff.get_diff(
+    assert format.plain(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_PLAIN)
 
 
 def test_json():
-    assert json.output(generate_diff.get_diff(
+    assert format.json(generate_diff.get_diff(
         parsers.get_set('./tests/fixtures/before_complex.json'),
         parsers.get_set('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_JSON)

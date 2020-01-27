@@ -1,15 +1,15 @@
 from gendiff.constants import (IN_BEFORE, IN_AFTER, CHANGED, SAME,
-                               CONDITION, VALUE, BEFORE_VALUE, AFTER_VALUE)
+                               CONDITION, VALUE)
 
 
 # The function accepts a dictionary
 # in which the collected data compares two files
 # and returns a string looks like JSON
-def output(dictionary, level=0):
+def format(dictionary, level=0):
     result = []
-    for key in sorted(dictionary):
+    for key, node in sorted(dictionary.items()):
         indent = '    ' * level
-        condition = dictionary[key][CONDITION]
+        condition = node[CONDITION]
 
         # Get string format of values
         def get_format(data):
@@ -20,23 +20,29 @@ def output(dictionary, level=0):
             else:
                 return get_str_value(data)
 
+        line_template = f'{indent}  {{symbol}} {key}: {{value}}'
+
+        def append(symbol, x):
+            result.append(line_template.format(
+                symbol=symbol,
+                value=get_format(x),
+            ))
+
+        value = node[VALUE]
+
         if condition == IN_BEFORE:
-            value = get_format(dictionary[key][VALUE])
-            result.append(f'{indent}  - {key}: {value}')
+            append('-', value)
         elif condition == IN_AFTER:
-            value = get_format(dictionary[key][VALUE])
-            result.append(f'{indent}  + {key}: {value}')
+            append('+', value)
         elif condition == SAME:
-            value = get_format(dictionary[key][VALUE])
-            result.append(f'{indent}    {key}: {value}')
+            append(' ', value)
         elif condition == CHANGED:
-            before_value = get_format(dictionary[key][BEFORE_VALUE])
-            after_value = get_format(dictionary[key][AFTER_VALUE])
-            result.append(f'{indent}  - {key}: {before_value}')
-            result.append(f'{indent}  + {key}: {after_value}')
+            old, new = value
+            append('-', old)
+            append('+', new)
         else:
             result.append(f'    {indent}{key}: {{')
-            result.append(output(dictionary[key][VALUE], level + 1))
+            result.append(format(value, level + 1))
             result.append(f'{indent}    }}')
 
     if level == 0:

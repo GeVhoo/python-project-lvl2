@@ -1,5 +1,5 @@
 from gendiff.constants import (IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN,
-                               CONDITION, VALUE, BEFORE_VALUE, AFTER_VALUE)
+                               CONDITION, VALUE)
 
 
 def get_diff(before, after):
@@ -38,7 +38,6 @@ def get_diff(before, after):
         else:
             result[key] = {
                 CONDITION: CHANGED,
-                BEFORE_VALUE: before_value,
-                AFTER_VALUE: after_value,
+                VALUE: (before_value, after_value)
                 }
     return result

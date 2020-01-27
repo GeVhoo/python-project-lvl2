@@ -36,9 +36,11 @@
         "condition": "children",
         "value": {
             "baz": {
-                "after_value": "bars",
-                "before_value": "bas",
-                "condition": "changed"
+                "condition": "changed",
+                "value": [
+                    "bas",
+                    "bars"
+                ]
             },
             "foo": {
                 "condition": "same",
