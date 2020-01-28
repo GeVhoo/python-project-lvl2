@@ -12,7 +12,7 @@ def formatter(name):
     elif name == format.DEFAULT:
         return format.default
     raise argparse.ArgumentTypeError(
-        "Unknown formatter: %s".format(name))
+        f"Unknown formatter: {name}")
 
 
 parser = argparse.ArgumentParser(description='Generate diff')
@@ -20,7 +20,6 @@ parser.add_argument('first_file', type=str, help='input name')
 parser.add_argument('second_file', type=str, help='input name')
 parser.add_argument('-f', '--format',
                     default=format.DEFAULT,
-                    choices=format.FORMATTERS,
                     type=formatter,
                     help='set format of output: "string", "plain", "json"')
 
@@ -28,4 +27,5 @@ parser.add_argument('-f', '--format',
 def run(args):
     print(args.format(generate_diff.get_diff(
         parsers.get_set(args.first_file),
-        parsers.get_set(args.second_file))))
+        parsers.get_set(args.second_file),
+        )))
