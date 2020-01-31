@@ -1,6 +1,6 @@
 from gendiff import format
-from gendiff import parsers
-from gendiff import generate_diff
+from gendiff import loader
+from gendiff import diff
 import argparse
 
 
@@ -25,7 +25,7 @@ parser.add_argument('-f', '--format',
 
 
 def run(args):
-    print(args.format(generate_diff.get_diff(
-        parsers.get_set(args.first_file),
-        parsers.get_set(args.second_file),
+    print(args.format(diff.get(
+        loader.load(args.first_file),
+        loader.load(args.second_file),
         )))

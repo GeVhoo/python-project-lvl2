@@ -2,7 +2,7 @@ from gendiff.constants import (IN_BEFORE, IN_AFTER, SAME, CHANGED, CHILDREN,
                                CONDITION, VALUE)
 
 
-def get_diff(before, after):
+def get(before, after):
     # Get keys for both files
     before_keys_set = before.keys()
     after_keys_set = after.keys()
@@ -26,18 +26,19 @@ def get_diff(before, after):
         before_value = before[key]
         after_value = after[key]
         if before_value == after_value:
-            result[key] = {
+            value = {
                 CONDITION: SAME,
                 VALUE: before_value,
                 }
         elif isinstance(before_value, dict) and isinstance(after_value, dict):
-            result[key] = {
+            value = {
                 CONDITION: CHILDREN,
-                VALUE: get_diff(before_value, after_value),
+                VALUE: get(before_value, after_value),
                 }
         else:
-            result[key] = {
+            value = {
                 CONDITION: CHANGED,
                 VALUE: (before_value, after_value)
                 }
+        result[key] = value
     return result

@@ -1,6 +1,6 @@
 from gendiff import format
-from gendiff import parsers
-from gendiff import generate_diff
+from gendiff import loader
+from gendiff import diff
 
 EXPECTED_SIMPLE = './tests/fixtures/expected_result/expected_simple.txt'
 EXPECTED_COMPLEX = './tests/fixtures/expected_result/expected_complex.txt'
@@ -14,35 +14,35 @@ def get_expected_result(path):
 
 
 def test_string_simple():
-    assert format.default(generate_diff.get_diff(
-        parsers.get_set('./tests/fixtures/before.json'),
-        parsers.get_set('./tests/fixtures/after.json'),
+    assert format.default(diff.get(
+        loader.load('./tests/fixtures/before.json'),
+        loader.load('./tests/fixtures/after.json'),
         )) == get_expected_result(EXPECTED_SIMPLE)
 
 
 def test_string_yaml():
-    assert format.default(generate_diff.get_diff(
-        parsers.get_set('./tests/fixtures/before.yml'),
-        parsers.get_set('./tests/fixtures/after.yml'),
+    assert format.default(diff.get(
+        loader.load('./tests/fixtures/before.yml'),
+        loader.load('./tests/fixtures/after.yml'),
         )) == get_expected_result(EXPECTED_SIMPLE)
 
 
 def test_string_complex():
-    assert format.default(generate_diff.get_diff(
-        parsers.get_set('./tests/fixtures/before_complex.json'),
-        parsers.get_set('./tests/fixtures/after_complex.json'),
+    assert format.default(diff.get(
+        loader.load('./tests/fixtures/before_complex.json'),
+        loader.load('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_COMPLEX)
 
 
 def test_plain():
-    assert format.plain(generate_diff.get_diff(
-        parsers.get_set('./tests/fixtures/before_complex.json'),
-        parsers.get_set('./tests/fixtures/after_complex.json'),
+    assert format.plain(diff.get(
+        loader.load('./tests/fixtures/before_complex.json'),
+        loader.load('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_PLAIN)
 
 
 def test_json():
-    assert format.json(generate_diff.get_diff(
-        parsers.get_set('./tests/fixtures/before_complex.json'),
-        parsers.get_set('./tests/fixtures/after_complex.json'),
+    assert format.json(diff.get(
+        loader.load('./tests/fixtures/before_complex.json'),
+        loader.load('./tests/fixtures/after_complex.json'),
         )) == get_expected_result(EXPECTED_JSON)
